@@ -19,7 +19,7 @@ import com.example.game.model.TicTacToe;
 public class TicTacToeFragment extends Fragment {
 
     Button[][] mButtons = new Button[3][3];
-    int mTurn = 0;
+    Button mButtonReset;
     TicTacToe mTicTacToe = new TicTacToe();
 
     public static TicTacToeFragment newInstance() {
@@ -59,6 +59,7 @@ public class TicTacToeFragment extends Fragment {
         mButtons[2][0] = view.findViewById(R.id.button_20);
         mButtons[2][1] = view.findViewById(R.id.button_21);
         mButtons[2][2] = view.findViewById(R.id.button_22);
+        mButtonReset = view.findViewById(R.id.button_reset);
     }
 
     private void setListeners() {
@@ -79,14 +80,14 @@ public class TicTacToeFragment extends Fragment {
                             if (mTicTacToe.isGameFinished()) {
                                 GameResult gr = mTicTacToe.getGameResult();
                                 if (gr == GameResult.X_WINS)
-                                // Snackbar
-                                Toast.makeText(getActivity(), "X has won", Toast.LENGTH_SHORT).show();
+                                    // Snackbar
+                                    Toast.makeText(getActivity(), "X has won", Toast.LENGTH_SHORT).show();
                                 else if (gr == GameResult.O_WINS)
-                                // Snackbar
-                                Toast.makeText(getActivity(), "O has won", Toast.LENGTH_SHORT).show();
-                                else if (gr == GameResult.DRAW);
-                                // Snackbar
-                                Toast.makeText(getActivity(), "Draw!!!", Toast.LENGTH_SHORT).show();
+                                    // Snackbar
+                                    Toast.makeText(getActivity(), "O has won", Toast.LENGTH_SHORT).show();
+                                else if (gr == GameResult.DRAW)
+                                    // Snackbar
+                                    Toast.makeText(getActivity(), "Draw!!!", Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (IndexAlreadyTakenException e) {
@@ -101,7 +102,23 @@ public class TicTacToeFragment extends Fragment {
 
             }
         }
+
+        mButtonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTicTacToe = new TicTacToe();
+                resetButtonsText();
+            }
+        });
     }
 
+    private void resetButtonsText() {
+        for (int i = 0; i < mButtons.length; i++) {
+            for (int j = 0; j < mButtons[0].length; j++) {
+                mButtons[i][j].setText("");
+            }
+        }
+
+    }
 
 }
