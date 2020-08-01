@@ -46,10 +46,10 @@ public class TicTacToe implements Serializable {
             table[i][j] = Value.X;
         else if (turn.equals(Value.O))
             table[i][j] = Value.O;
-        swithTurn();
+        switchTurn();
     }
 
-    private void swithTurn() {
+    private void switchTurn() {
         if (turn.equals(Value.X))
             turn = Value.O;
         else if (turn.equals(Value.O))
@@ -67,10 +67,32 @@ public class TicTacToe implements Serializable {
             if (getNumberOfOinRow(i) == 3
                     || getNumberOfOinColumn(i) == 3
                     || getNumberOfXinRow(i) == 3
-                    || getNumberOfXinColumn(i) == 3)
+                    || getNumberOfXinColumn(i) == 3
+                    || diagonalFinished()
+            )
                 somebodyWon = true;
         }
         return (somebodyWon || draw);
+    }
+
+    private boolean diagonalFinished() {
+        if (table[0][0] == Value.X
+                && table[1][1] == Value.X
+                && table[2][2] == Value.X)
+            return true;
+        else if (table[0][0] == Value.O
+                && table[1][1] == Value.O
+                && table[2][2] == Value.O)
+            return true;
+        else if (table[0][2] == Value.X
+                && table[1][1] == Value.X
+                && table[2][0] == Value.X)
+            return true;
+        else if (table[0][2] == Value.O
+                && table[1][1] == Value.O
+                && table[2][0] == Value.O)
+            return true;
+        return false;
     }
 
     private int getNumberOfOinRow(int row) {
@@ -118,10 +140,19 @@ public class TicTacToe implements Serializable {
             if (getNumberOfXinRow(i) == 3 || getNumberOfXinColumn(i) == 3)
                 Xwon = true;
         }
+
+        if ((table[0][0] == Value.X && table[1][1] == Value.X && table[2][2] == Value.X)
+                || (table[0][2] == Value.X && table[1][1] == Value.X && table[2][0] == Value.X))
+            Xwon =true;
+
+        if ((table[0][0] == Value.O && table[1][1] == Value.O && table[2][2] == Value.O)
+                || (table[0][2] == Value.O && table[1][1] == Value.O && table[2][0] == Value.O))
+            Owon =true;
+
         if (Owon)
-            return GameResult.O_WINS;
-        else if (Xwon)
-            return GameResult.X_WINS;
+                return GameResult.O_WINS;
+            else if (Xwon)
+                return GameResult.X_WINS;
         return GameResult.DRAW;
     }
 

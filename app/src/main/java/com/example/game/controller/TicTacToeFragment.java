@@ -16,6 +16,7 @@ import com.example.game.enums.GameResult;
 import com.example.game.enums.Value;
 import com.example.game.exceptions.IndexAlreadyTakenException;
 import com.example.game.model.TicTacToe;
+import com.williammora.snackbar.Snackbar;
 
 public class TicTacToeFragment extends Fragment {
 
@@ -92,16 +93,12 @@ public class TicTacToeFragment extends Fragment {
                                 setButtonsEnable(false);
                                 GameResult gr = mTicTacToe.getGameResult();
                                 if (gr == GameResult.X_WINS)
-                                    // Snackbar
-                                    Toast.makeText(getActivity(), "X has won", Toast.LENGTH_SHORT).show();
+                                    Snackbar.with(getActivity()).text("X has won!").show(getActivity());
                                 else if (gr == GameResult.O_WINS)
-                                    // Snackbar
-                                    Toast.makeText(getActivity(), "O has won", Toast.LENGTH_SHORT).show();
+                                    Snackbar.with(getActivity()).text("O has won!").show(getActivity());
                                 else if (gr == GameResult.DRAW)
-                                    // Snackbar
-                                    Toast.makeText(getActivity(), "Draw!!!", Toast.LENGTH_SHORT).show();
+                                    Snackbar.with(getActivity()).text("Draw!!").show(getActivity());
                             }
-
                         } catch (IndexAlreadyTakenException e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         } catch (IndexOutOfBoundsException e) {
