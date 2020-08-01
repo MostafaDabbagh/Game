@@ -1,4 +1,4 @@
-package com.example.game;
+package com.example.game.controller;
 
 import android.os.Bundle;
 
@@ -8,11 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.game.R;
+import com.example.game.enums.GameResult;
+import com.example.game.enums.Value;
+import com.example.game.exceptions.IndexAlreadyTakenException;
+import com.example.game.model.TicTacToe;
 
 public class TicTacToeFragment extends Fragment {
 
     Button[][] mButtons = new Button[3][3];
     int mTurn = 0;
+    TicTacToe mTicTacToe = new TicTacToe();
+
     public static TicTacToeFragment newInstance() {
         TicTacToeFragment fragment = new TicTacToeFragment();
         Bundle args = new Bundle();
@@ -57,33 +66,42 @@ public class TicTacToeFragment extends Fragment {
             final int finalI = i;
             for (int j = 0; j < mButtons[0].length; j++) {
                 final int finalJ = j;
+
                 mButtons[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        try {
+                            mTicTacToe.makeAction(finalI, finalJ);
+                            if (mTicTacToe.getTurn() == Value.X) {
+                                mButtons[finalI][finalJ].setText("O");
+                            } else if (mTicTacToe.getTurn() == Value.O)
+                                mButtons[finalI][finalJ].setText("X");
+                            if (mTicTacToe.isGameFinished()) {
+                                GameResult gr = mTicTacToe.getGameResult();
+                                if (gr == GameResult.X_WINS)
+                                // Snackbar
+                                Toast.makeText(getActivity(), "X has won", Toast.LENGTH_SHORT).show();
+                                else if (gr == GameResult.O_WINS)
+                                // Snackbar
+                                Toast.makeText(getActivity(), "O has won", Toast.LENGTH_SHORT).show();
+                                else if (gr == GameResult.DRAW);
+                                // Snackbar
+                                Toast.makeText(getActivity(), "Draw!!!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (IndexAlreadyTakenException e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (IndexOutOfBoundsException e) {
+                            Toast.makeText(getActivity(), "Out of bound input", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
+
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

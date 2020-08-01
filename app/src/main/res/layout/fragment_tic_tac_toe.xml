@@ -4,22 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TicTacToeFragment">
+    tools:context=".controller.TicTacToeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|top"
-        android:layout_margin="16dp"
-        android:text="Game:Tic Tac Toe"
-        android:textSize="24sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginRight="16dp"
+            android:text="Game:Tic Tac Toe"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/button_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:text="Reset" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="210dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
         android:orientation="horizontal">
 
         <Button
