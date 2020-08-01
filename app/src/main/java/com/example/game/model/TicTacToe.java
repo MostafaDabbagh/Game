@@ -5,7 +5,9 @@ import com.example.game.enums.GameResult;
 import com.example.game.enums.Value;
 import com.example.game.exceptions.IndexAlreadyTakenException;
 
-public class TicTacToe {
+import java.io.Serializable;
+
+public class TicTacToe implements Serializable {
     private Value[][] table = new Value[3][3];
     private Value turn = Value.X;
 
@@ -15,6 +17,10 @@ public class TicTacToe {
                 table[i][j] = Value.E;
             }
         }
+    }
+
+    public Value[][] getTable() {
+        return table;
     }
 
     public Value getTurn() {

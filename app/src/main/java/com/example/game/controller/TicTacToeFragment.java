@@ -2,6 +2,7 @@ package com.example.game.controller;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.example.game.model.TicTacToe;
 
 public class TicTacToeFragment extends Fragment {
 
+    public static final String ARG_TIC_TAC_TOE = "TicTacToe";
     Button[][] mButtons = new Button[3][3];
     Button mButtonReset;
     TicTacToe mTicTacToe = new TicTacToe();
@@ -33,9 +35,15 @@ public class TicTacToeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
+        if (savedInstanceState != null) {
+            mTicTacToe = (TicTacToe) savedInstanceState.getSerializable(ARG_TIC_TAC_TOE);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(ARG_TIC_TAC_TOE, mTicTacToe);
     }
 
     @Override
@@ -46,6 +54,8 @@ public class TicTacToeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_tic_tac_toe, container, false);
         findViews(view);
         setListeners();
+        initButtonsText();
+        setButtonsEnable(!mTicTacToe.isGameFinished());
         return view;
     }
 
@@ -78,6 +88,7 @@ public class TicTacToeFragment extends Fragment {
                             } else if (mTicTacToe.getTurn() == Value.O)
                                 mButtons[finalI][finalJ].setText("X");
                             if (mTicTacToe.isGameFinished()) {
+                                setButtonsEnable(false);
                                 GameResult gr = mTicTacToe.getGameResult();
                                 if (gr == GameResult.X_WINS)
                                     // Snackbar
@@ -107,17 +118,36 @@ public class TicTacToeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mTicTacToe = new TicTacToe();
-                resetButtonsText();
+                initButtonsText();
+                setButtonsEnable(true);
             }
         });
     }
 
-    private void resetButtonsText() {
+    private void initButtonsText() {
+        Value[][] ticTacToeTable = mTicTacToe.getTable();
         for (int i = 0; i < mButtons.length; i++) {
             for (int j = 0; j < mButtons[0].length; j++) {
-                mButtons[i][j].setText("");
+                if (ticTacToeTable[i][j] == Value.E)
+                    mButtons[i][j].setText("");
+                else if (ticTacToeTable[i][j] == Value.X)
+                    mButtons[i][j].setText("X");
+                else if (ticTacToeTable[i][j] == Value.O)
+                    mButtons[i][j].setText("O");
             }
         }
+
+    }
+
+    private void setButtonsEnable(boolean b){
+        for (int i = 0; i < mButtons.length; i++) {
+            for (int j = 0; j < mButtons[0].length; j++) {
+                mButtons[i][j].setEnabled(b);
+            }
+        }
+
+
+
 
     }
 
