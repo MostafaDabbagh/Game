@@ -19,7 +19,8 @@ import com.example.game.model.TicTacToe;
 
 public class TicTacToeFragment extends Fragment {
 
-    public static final String ARG_TIC_TAC_TOE = "TicTacToe";
+    public static final String BUNDLE_TIC_TAC_TOE = "TicTacToe";
+
     Button[][] mButtons = new Button[3][3];
     Button mButtonReset;
     TicTacToe mTicTacToe = new TicTacToe();
@@ -36,14 +37,14 @@ public class TicTacToeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mTicTacToe = (TicTacToe) savedInstanceState.getSerializable(ARG_TIC_TAC_TOE);
+            mTicTacToe = (TicTacToe) savedInstanceState.getSerializable(BUNDLE_TIC_TAC_TOE);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(ARG_TIC_TAC_TOE, mTicTacToe);
+        outState.putSerializable(BUNDLE_TIC_TAC_TOE, mTicTacToe);
     }
 
     @Override
